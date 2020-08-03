@@ -17,14 +17,20 @@ eureka:
 zuul:
 #  ignored-services: microservicecloud-dept
   prefix: /atguigu
-  ignored-services: "*"
-  routes:
-    mydept.serviceId: microservicecloud-dept
-    mydept.path: /mydept/**
+  #ignored-services: "*"
+  #routes:
+   # mydept.serviceId: microservicecloud-dept
+   # mydept.path: /mydept/**
 
 info:
   app.name: atguigu-microcloud
   company.name: www.atguigu.com
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+  
+#全局配置
+# 请求连接的超时时间 默认的时间为 1 秒
+ribbon:
+  ConnectTimeout: 5000
+  ReadTimeout: 5000
 

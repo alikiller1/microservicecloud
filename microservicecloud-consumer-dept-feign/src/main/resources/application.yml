@@ -4,9 +4,29 @@ server:
 feign:
   hystrix:
     enabled: true
+   
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1900
 
 eureka:
   client:
     register-with-eureka: false
     service-url:
-      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/    
+    registry-fetch-interval-seconds: 5 #默认30秒
+
+# 请求连接的超时时间 默认的时间为 1 秒,默认MaxAutoRetries=1,
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 1000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+  #默认30秒，优先registry-fetch-interval-seconds
+  ServerListRefreshInterval: 2000 
