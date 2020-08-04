@@ -5,6 +5,8 @@ import com.atguigu.springcloud.service.DeptClientService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +17,13 @@ import java.util.List;
 /**
  * Created by ZeroV on 2018/11/6.
  */
+@Slf4j
 @RestController
 public class DeptController_Consumer {
 
-    @Autowired
-    DeptClientService service;
-    
+	@Autowired
+	DeptClientService service;
+
 	/*  @HystrixCommand(
 			commandProperties = {
 					//10秒内达到5个请求，且50%（默认）以上的失败，则启动熔断
@@ -33,46 +36,50 @@ public class DeptController_Consumer {
 	//    				@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000"),
 					
 			})*/
-    @RequestMapping(value = "/consumer/dept/get/{id}")
-    public Dept get(@PathVariable("id") Long id)
-    {
-		
-		  System.out.println("request...."); 
-		  return this.service.get(id);
-		 
-    }
+	@RequestMapping(value = "/consumer/dept/get/{id}")
+	public Dept get(@PathVariable("id") Long id) {
 
-    @RequestMapping(value = "/consumer/dept/list")
-    public List<Dept> list()
-    {
-        return this.service.list();
-    }
+		log.info("request....");
+		return this.service.get(id);
 
-    @RequestMapping(value = "/consumer/dept/add")
-    public Object add(Dept dept)
-    {
-        return this.service.add(dept);
-    }
-    
-    @HystrixCommand(
-    		commandProperties = {
-    				//10秒内达到5个请求，且50%（默认）以上的失败，则启动熔断
-    				@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
-    				//是否启用熔断，默认true
-    				@HystrixProperty(name = "circuitBreaker.enabled", value = "true"),
-    				//是否强制关闭熔断,默认false
+	}
+
+	@RequestMapping(value = "/consumer/dept/get2/{id}")
+	public Dept get2(@PathVariable("id") Long id) {
+
+		log.info("request....");
+		return this.service.get2(id);
+
+	}
+
+	@RequestMapping(value = "/consumer/dept/list")
+	public List<Dept> list() {
+		return this.service.list();
+	}
+
+	@RequestMapping(value = "/consumer/dept/add")
+	public Object add(Dept dept) {
+		return this.service.add(dept);
+	}
+
+	@HystrixCommand(commandProperties = {
+			// 10秒内达到5个请求，且50%（默认）以上的失败，则启动熔断
+			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+			// 是否启用熔断，默认true
+			@HystrixProperty(name = "circuitBreaker.enabled", value = "true"),
+			// 是否强制关闭熔断,默认false
 //    				@HystrixProperty(name = "circuitBreaker.forceClosed", value = "true"),
-    				//超时时间
+			// 超时时间
 //    				@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000"),
-    				
-    		})
-    @RequestMapping("test")
-    public String test(String name) throws Exception {
-    	System.out.println("request...");
-    	if("a".equalsIgnoreCase(name)) {
-    		throw new Exception("aaa");
-    	}
-    	return "test";
-    }
+
+	})
+	@RequestMapping("test")
+	public String test(String name) throws Exception {
+		log.info("request...");
+		if ("a".equalsIgnoreCase(name)) {
+			throw new Exception("aaa");
+		}
+		return "test";
+	}
 
 }

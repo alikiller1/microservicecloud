@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.atguigu.springcloud.entities.Dept;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 /**
  *
@@ -19,8 +21,8 @@ import com.atguigu.springcloud.entities.Dept;
  * @author zzyy
  * @date 2018年4月21日
  */
-//@FeignClient(value = "MICROSERVICECLOUD-DEPT")
-@FeignClient(value = "MICROSERVICECLOUD-DEPT",fallbackFactory=DeptClientServiceFallbackFactory.class)
+@FeignClient(value = "MICROSERVICECLOUD-DEPT")
+//@FeignClient(value = "MICROSERVICECLOUD-DEPT",fallbackFactory=DeptClientServiceFallbackFactory.class)
 public interface DeptClientService
 {
 	/*	@HystrixCommand(
@@ -37,6 +39,10 @@ public interface DeptClientService
 			})*/
     @RequestMapping(value = "/dept/get/{id}", method = RequestMethod.GET)
     public Dept get(@PathVariable("id") long id);
+    
+  
+    @RequestMapping(value = "/dept/get2/{id}", method = RequestMethod.GET)
+    public Dept get2(@PathVariable("id") long id);
 
     @RequestMapping(value = "/dept/list", method = RequestMethod.GET)
     public List<Dept> list();

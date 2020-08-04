@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atguigu.springcloud.entities.Dept;
 import com.atguigu.springcloud.service.DeptService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class DeptController
 {
     @Autowired
@@ -22,8 +24,14 @@ public class DeptController
 //    @HystrixCommand(fallbackMethod = "processHystrix_Get")
     public Dept get(@PathVariable("id") Long id)
     {
-    	System.out.println("request----");
+    	log.info("request----");
     	
+    	try {
+			Thread.sleep(15000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 //        Dept dept = this.service.get(id);
     	 Dept dept=null;
@@ -44,11 +52,10 @@ public class DeptController
                 .setDb_source("no this database in MySQL!");
     }
     
-    @HystrixCommand
     @RequestMapping(value = "/dept/get2/{id}", method = RequestMethod.GET)
     public Dept get2(@PathVariable("id") Long id)
     {
-    	System.out.println("request----");
+    	log.info("request----");
 //        Dept dept = this.service.get(id);
     	 Dept dept=null;
 //    	 Dept dept=new Dept();
@@ -64,7 +71,7 @@ public class DeptController
     
     @RequestMapping("/save")
     public boolean add(Dept dept,String dname) {
-    	System.out.println("abc");
+    	log.info("abc");
     	return service.add(dept);
     }
 }
