@@ -59,13 +59,14 @@ public class DeptController_Consumer {
     				//10秒内达到5个请求，且50%（默认）以上的失败，则启动熔断
     				@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
     				//是否启用熔断，默认true
-    				@HystrixProperty(name = "circuitBreaker.enabled", value = "true"),
+    				@HystrixProperty(name = "circuitBreaker.enabled", value = "false"),
     				//是否强制关闭熔断,默认false
 //    				@HystrixProperty(name = "circuitBreaker.forceClosed", value = "true"),
     				//超时时间
 //    				@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000"),
     				
-    		})
+    		},fallbackMethod ="testFail" )
+    
     @RequestMapping("test")
     public String test(String name) throws Exception {
     	System.out.println("request...");
@@ -75,4 +76,7 @@ public class DeptController_Consumer {
     	return "test";
     }
 
+    public String testFail(String name) {
+    	return "123";
+    }
 }
