@@ -67,7 +67,9 @@ public class DeptController_Consumer {
 			// 是否启用熔断，默认true
 			@HystrixProperty(name = "circuitBreaker.enabled", value = "true"),
 			// 是否强制关闭熔断,默认false
-    		},fallbackMethod ="testFail" )
+    		}
+//	,fallbackMethod ="testFail"
+    		)
     
     @RequestMapping("test")
     public String test(String name) throws Exception {

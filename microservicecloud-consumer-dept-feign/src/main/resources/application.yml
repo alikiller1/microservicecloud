@@ -13,7 +13,7 @@ hystrix:
           enabled: true
         isolation:
           thread:
-            timeoutInMilliseconds: 1900
+            timeoutInMilliseconds: 6000
 
 eureka:
   client:
